@@ -21,8 +21,8 @@ contract Medication is ERC721URIStorage, Ownable {
 	}
 
 	function mint(address _patient, uint32 _quantity, string memory _name, uint32 _dosage, string memory _remarks, string memory _pid) public {
-		require(userRegistry.isDoctor(msg.sender));
-		require(userRegistry.isPatient(_patient));
+		require(userRegistry.isDoctor(msg.sender), "Only doctors are authorised to mint new prescriptions.");
+		require(userRegistry.isPatient(_patient), "The receiver entered is not a valid patient address.");
 		_mint(_patient, ++tokenCounter);
 		medicationUnits[tokenCounter] = new MedicationUnits();
 		medicationUnits[tokenCounter].generate(_quantity);
@@ -30,10 +30,10 @@ contract Medication is ERC721URIStorage, Ownable {
 	}
 
 	function redeem(uint256 _tokenId, address _pharmacist, uint32 _amount) public {
-		require(userRegistry.isPatient(msg.sender));
-		require(userRegistry.isPharmacist(_pharmacist));
+		require(userRegistry.isPatient(msg.sender), "Only patients can use the 'redeem' function.");
+		require(userRegistry.isPharmacist(_pharmacist), "The receiver inputted is not a valid pharmacist address.");
 		require(_exists(_tokenId));
-		require(_amount > 0);
+		require(_amount > 0, "Redemption amount must be greater than 0.");
 		medicationUnits[_tokenId].burn(_amount);
 		userRegistry.addHistory(msg.sender, _tokenId, _amount, msg.sender, _pharmacist);
 		userRegistry.addHistory(_pharmacist, _tokenId, _amount, msg.sender, _pharmacist);

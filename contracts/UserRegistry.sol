@@ -20,9 +20,9 @@ contract UserRegistry {
 	mapping(address => History[]) private userHistory;
 
 	function initUser(string memory _name, uint _role) public {
-		require(bytes(_name).length > 0);
-		require(users[msg.sender].role == 0);
-		require(_role > 0 && _role <= 3);
+		require(bytes(_name).length > 0, "Invalid name length");
+		require(users[msg.sender].role == 0, "User already initialised");
+		require(_role > 0 && _role <= 3, "Invalid role input");
 		users[msg.sender] = User(_name, _role);
 	}
 
@@ -59,7 +59,7 @@ contract UserRegistry {
 	}
 
 	function getHistory(address _address) public view returns (History[] memory) {
-		require(isPharmacist(_address) || isDoctor(_address), "You are unauthorised to retrieve history by address.");
+		require(isPharmacist(msg.sender) || isDoctor(msg.sender), "You are unauthorised to retrieve history by address.");
 		return userHistory[_address];
 	}
 
