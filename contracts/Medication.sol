@@ -29,14 +29,14 @@ contract Medication is ERC721URIStorage, Ownable {
 		medicationData.add(tokenCounter, _name, _dosage, _remarks, _pid);
 	}
 
-	function redeem(uint256 _tokenId, address _pharmacist, uint32 _amount) public {
+	function redeem(uint256 _tokenId, address _pharmacist, uint32 _amount, uint256 _timestamp) public {
 		require(userRegistry.isPatient(msg.sender), "Only patients can use the 'redeem' function.");
 		require(userRegistry.isPharmacist(_pharmacist), "The receiver inputted is not a valid pharmacist address.");
 		require(_exists(_tokenId));
 		require(_amount > 0, "Redemption amount must be greater than 0.");
 		medicationUnits[_tokenId].burn(_amount);
-		userRegistry.addHistory(msg.sender, _tokenId, _amount, msg.sender, _pharmacist);
-		userRegistry.addHistory(_pharmacist, _tokenId, _amount, msg.sender, _pharmacist);
+		userRegistry.addHistory(msg.sender, _tokenId, _amount, _timestamp, msg.sender, _pharmacist);
+		userRegistry.addHistory(_pharmacist, _tokenId, _amount, _timestamp, msg.sender, _pharmacist);
 	}
 
 	function getBalanceFor(uint256 _tokenId) external view returns (uint256) {

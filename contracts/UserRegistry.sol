@@ -63,8 +63,8 @@ contract UserRegistry {
 		return userHistory[_address];
 	}
 
-	function addHistory(address _address, uint256 _tokenId, uint32 _amount, address _patient, address _pharmacist) public {
-		userHistory[_address].push(History(_tokenId, _amount, block.timestamp, _patient, _pharmacist));
+	function addHistory(address _address, uint256 _tokenId, uint32 _amount, uint256 _timestamp, address _patient, address _pharmacist) public {
+		userHistory[_address].push(History(_tokenId, _amount, _timestamp, _patient, _pharmacist));
 	}
 
 }
