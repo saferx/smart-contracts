@@ -1,0 +1,11 @@
+{
+  "name": "smart-contracts",
+  "version": "1.0.0",
+  "description": "This repository contains the code for the smart contracts used in the SafeRx project.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
